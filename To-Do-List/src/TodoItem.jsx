@@ -1,6 +1,4 @@
-import React from "react";
-
-const TodoItem = (completed, id, title) => {
+const TodoItem = ({ completed, id, title, toggleTodo, deleteTodo }) => {
   return (
     <li>
       <label>

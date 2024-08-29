@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 
 const App = () => {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(() => {
+    const localValue = localStorage.getItem("ITEMS");
+    if (localValue === null) return [];
+
+    return JSON.parse(localValue);
+  });
+
+  useEffect(() => {
+    localStorage.setItem("ITEMS", JSON.stringify(todos));
+  }, [todos]);
 
   const addTodo = (title) => {
     setTodos((currTodos) => {
@@ -36,7 +45,7 @@ const App = () => {
     <>
       <TodoForm addTodoFunc={addTodo} />
       <h1 className="header">To-do-List</h1>
-      <TodoList todos={todos} />
+      <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
     </>
   );
 };
